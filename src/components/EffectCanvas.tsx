@@ -45,7 +45,9 @@ export function EffectCanvas({
 
     const mountEffect = async () => {
       try {
-        const moduleUrl = `/effects/${moduleName}.js`;
+        // Resolve against the document base so the build works both at the
+        // site root and under a GitHub Pages project subpath.
+        const moduleUrl = new URL(`effects/${moduleName}.js`, document.baseURI).href;
         const effect = (await import(/* @vite-ignore */ moduleUrl)) as EffectModuleApi;
         const initialPreset = {
           ...presetRef.current,

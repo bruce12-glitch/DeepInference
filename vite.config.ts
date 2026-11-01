@@ -5,6 +5,9 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    // Relative base keeps the static build portable: GitHub Pages project
+    // sites (/<repo>/) and custom domains both resolve assets correctly.
+    base: './',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
