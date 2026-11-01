@@ -28,7 +28,8 @@ npm run preview
 - `src/components/OptimizationExplorer.tsx`: keyboard-operable tabs for latency, cache memory, and serving capacity.
 - `src/components/ContactDialog.tsx`: validated introduction form with an editable email draft and clipboard fallback.
 - `src/components/SiteHeader.tsx`: desktop navigation and a mobile menu with Escape dismissal.
-- `src/index.css`: responsive cream, charcoal, terracotta, and sage design tokens and component styles.
+- `src/index.css`: responsive cream, charcoal, terracotta, blue, and sage design tokens and component styles.
+- `public/brand/wordmark.svg` and `monogram.svg`: original replacement brand assets.
 - `public/brand/og-startup.svg`: editable source for the 1200 × 630 social image.
 
 ## Contact behavior

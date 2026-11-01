@@ -32,11 +32,11 @@ export function InferenceField() {
   const fieldRef = useRef<HTMLDivElement>(null);
   const paths = useMemo(
     () => ({
-      meridians: Array.from({ length: 64 }, (_, i) =>
-        ringPath((i * Math.PI) / 32, "meridian"),
+      meridians: Array.from({ length: 48 }, (_, i) =>
+        ringPath((i * Math.PI) / 24, "meridian"),
       ),
-      parallels: Array.from({ length: 14 }, (_, i) =>
-        ringPath((i * Math.PI) / 7, "parallel"),
+      parallels: Array.from({ length: 10 }, (_, i) =>
+        ringPath((i * Math.PI) / 5, "parallel"),
       ),
     }),
     [],
@@ -68,55 +68,78 @@ export function InferenceField() {
       ref={fieldRef}
     >
       <div className="field__coordinates mono" aria-hidden="true">
-        <span>DI—001</span>
-        <span>EFFICIENCY, IN MOTION</span>
+        <span>The inference studies</span>
+        <span>No. 01</span>
       </div>
-      <svg
-        className="field__svg"
-        viewBox="0 0 620 570"
-        role="img"
-        aria-labelledby={titleId}
-      >
-        <title id={titleId}>
-          An interwoven terracotta torus: many paths, one coordinated system.
-        </title>
-        <g
-          className="field__guides"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="0.65"
-          opacity="0.18"
-        >
-          <circle cx="310" cy="287" r="247" strokeDasharray="2 7" />
-          <path d="M310 15v35M310 525v30M40 287h30M550 287h30M118 96l20 20M482 458l20 20M118 478l20-20M482 116l20-20" />
-        </g>
-        <g
-          className="field__sculpture"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="0.8"
-        >
-          {paths.meridians.map((path, i) => (
-            <path key={i} d={path} opacity={0.65 + Math.sin(i / 10) * 0.2} />
-          ))}
-          {paths.parallels.map((path, i) => (
-            <path key={`p${i}`} d={path} opacity="0.3" strokeWidth="0.65" />
-          ))}
-        </g>
-        <g className="field__orbit" fill="none">
-          <circle
-            cx="310"
-            cy="287"
-            r="247"
-            stroke="currentColor"
-            strokeWidth="1.6"
-            strokeDasharray="4 1548"
-            strokeLinecap="round"
-          />
-        </g>
-      </svg>
+      <div className="field__collage">
+        <div className="field__main">
+          <svg
+            className="field__svg"
+            viewBox="0 0 620 570"
+            role="img"
+            aria-labelledby={titleId}
+          >
+            <title id={titleId}>
+              An interwoven ink torus on terracotta paper: many paths, one
+              coordinated system.
+            </title>
+            <g
+              className="field__sculpture"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.1"
+            >
+              {paths.meridians.map((path, i) => (
+                <path
+                  key={i}
+                  d={path}
+                  opacity={0.65 + Math.sin(i / 10) * 0.2}
+                />
+              ))}
+              {paths.parallels.map((path, i) => (
+                <path key={`p${i}`} d={path} opacity="0.3" strokeWidth="0.65" />
+              ))}
+            </g>
+          </svg>
+          <span className="field__plate-label mono" aria-hidden="true">
+            COMPUTE, COORDINATED.
+          </span>
+        </div>
+        <div className="field__secondary" aria-hidden="true">
+          <div className="field__study field__study--blue">
+            <svg viewBox="0 0 160 220">
+              <g fill="none" stroke="currentColor" strokeWidth="1.2">
+                {Array.from({ length: 9 }, (_, i) => (
+                  <path
+                    key={i}
+                    d={`M${-30 + i * 17} 0 C ${120 + i * 10} 70, ${-65 + i * 10} 150, ${65 + i * 17} 220`}
+                  />
+                ))}
+              </g>
+            </svg>
+            <span className="mono">01 / FLOW</span>
+          </div>
+          <div className="field__study field__study--green">
+            <svg viewBox="0 0 160 220">
+              <g fill="none" stroke="currentColor" strokeWidth="1.1">
+                {Array.from({ length: 7 }, (_, i) => (
+                  <rect
+                    key={i}
+                    x={26 + i * 5}
+                    y={38 + i * 14}
+                    width="82"
+                    height="54"
+                    transform={`rotate(-20 ${67 + i * 5} ${65 + i * 14})`}
+                  />
+                ))}
+              </g>
+            </svg>
+            <span className="mono">02 / MEMORY</span>
+          </div>
+        </div>
+      </div>
       <div className="field__caption">
-        <span className="mono">Many paths. One purpose.</span>
+        <span className="mono">A little more from every layer.</span>
         <button
           className="icon-button"
           disabled={motionReduced}
