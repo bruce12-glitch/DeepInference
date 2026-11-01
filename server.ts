@@ -29,7 +29,11 @@ function getGenAIClient() {
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const portIndex = process.argv.indexOf("--port");
+  const PORT = Number(process.env.PORT || (portIndex >= 0 ? process.argv[portIndex + 1] : 3000));
+  if (!Number.isInteger(PORT) || PORT < 1 || PORT > 65535) {
+    throw new Error("PORT must be an integer between 1 and 65535.");
+  }
 
   app.use(express.json({ limit: "25mb" }));
 

@@ -1,33 +1,51 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { Brand } from "./Brand";
-
 const NAV_ITEMS = [
-  { label: "Runtime", href: "#runtime" },
-  { label: "Performance", href: "#performance" },
-  { label: "Deployment", href: "#deployment" },
-  { label: "Developers", href: "#developers" },
+  { label: "Our focus", href: "#platform" },
+  { label: "Solutions", href: "#solutions" },
+  { label: "Our approach", href: "#approach" },
+  { label: "Company", href: "#company" },
 ];
-
-export function SiteHeader() {
+export function SiteHeader({ onContact }: { onContact: () => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
   useEffect(() => {
     if (!menuOpen) return;
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMenuOpen(false);
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        toggleRef.current?.focus();
+      }
     };
-    window.addEventListener("keydown", closeOnEscape);
-    return () => window.removeEventListener("keydown", closeOnEscape);
+    const onClick = (event: PointerEvent) => {
+      if (!headerRef.current?.contains(event.target as Node))
+        setMenuOpen(false);
+    };
+    const media = window.matchMedia("(min-width: 900px)");
+    const onWide = () => {
+      if (media.matches) setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("pointerdown", onClick);
+    media.addEventListener("change", onWide);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("pointerdown", onClick);
+      media.removeEventListener("change", onWide);
+    };
   }, [menuOpen]);
-
   return (
-    <header className="site-header">
+    <header className="site-header" ref={headerRef}>
       <div className="shell header__inner">
-        <a href="#top" className="header__brand" aria-label="DeepInference home">
+        <a
+          href="#top"
+          className="header__brand"
+          aria-label="DeepInference home"
+        >
           <Brand />
         </a>
-
         <nav className="header__nav" aria-label="Primary navigation">
           {NAV_ITEMS.map((item) => (
             <a key={item.href} href={item.href}>
@@ -35,54 +53,60 @@ export function SiteHeader() {
             </a>
           ))}
         </nav>
-
         <div className="header__actions">
-          <a
-            className="header__github"
-            href="https://github.com/bruce12-glitch/DeepInference"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub <ArrowUpRight size={14} aria-hidden="true" />
-          </a>
-          <a
-            className="button button--small button--dark header__cta"
-            href="mailto:iambruce0012@gmail.com?subject=DeepInference%20cluster%20benchmark"
-          >
-            Benchmark your cluster
-          </a>
           <button
+            className="button button--small header__cta"
+            onClick={onContact}
+          >
+            Let’s talk <ArrowUpRight size={15} aria-hidden="true" />
+          </button>
+          <button
+            ref={toggleRef}
             type="button"
-            className="header__menu-button"
-            aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+            className="header__menu-button icon-button"
+            aria-label={
+              menuOpen ? "Close navigation menu" : "Open navigation menu"
+            }
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
             onClick={() => setMenuOpen((open) => !open)}
           >
-            {menuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+            {menuOpen ? (
+              <X size={23} aria-hidden="true" />
+            ) : (
+              <Menu size={23} aria-hidden="true" />
+            )}
           </button>
         </div>
       </div>
-
-      {menuOpen ? (
-        <nav id="mobile-navigation" className="mobile-nav" aria-label="Mobile navigation">
-          <div className="shell mobile-nav__inner">
-            {NAV_ITEMS.map((item) => (
-              <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>
-                {item.label}
-                <ArrowUpRight size={17} aria-hidden="true" />
-              </a>
-            ))}
+      <nav
+        id="mobile-navigation"
+        className="mobile-nav"
+        aria-label="Mobile navigation"
+        hidden={!menuOpen}
+      >
+        <div className="shell">
+          {NAV_ITEMS.map((item) => (
             <a
-              href="mailto:iambruce0012@gmail.com?subject=DeepInference%20cluster%20benchmark"
-              className="button button--accent"
+              key={item.href}
+              href={item.href}
               onClick={() => setMenuOpen(false)}
             >
-              Request a private benchmark
+              {item.label}
+              <ArrowUpRight size={17} aria-hidden="true" />
             </a>
-          </div>
-        </nav>
-      ) : null}
+          ))}
+          <button
+            className="text-link"
+            onClick={() => {
+              setMenuOpen(false);
+              onContact();
+            }}
+          >
+            Talk to the team <ArrowUpRight size={17} aria-hidden="true" />
+          </button>
+        </div>
+      </nav>
     </header>
   );
 }
