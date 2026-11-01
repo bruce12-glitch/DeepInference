@@ -34,33 +34,40 @@ export function OpticalHero() {
   }, []);
 
   const shouldPlay = playing && inView;
+  const isPrefill = mode === "prefill";
 
   return (
-    <div ref={cardRef} className="optical-card">
-      <div className="optical-card__topbar">
+    <div ref={cardRef} className="instrument">
+      <div className="instrument__topbar">
         <span className="mono-label">RUNTIME FIELD / 001</span>
-        <span className="optical-card__status">
+        <span className="instrument__status">
           <span className={shouldPlay ? "status-dot status-dot--live" : "status-dot"} />
           {shouldPlay ? "LIVE" : "PAUSED"}
         </span>
       </div>
 
-      <div className="optical-card__stage">
+      <div className="instrument__stage">
         <EffectCanvas
           moduleName="optical"
           preset={OPTICAL_PRESETS[mode]}
           playing={shouldPlay}
           label="Abstract three-dimensional inference field representing prefill and decode workloads"
         />
-        <div className="optical-card__readout" aria-hidden="true">
+        <div className="instrument__readout" aria-hidden="true">
           <span>MODEL</span>
           <strong>Llama 3.1 / 70B</strong>
           <span>RUNTIME</span>
           <strong>DeepInference</strong>
+          <span>STATE</span>
+          <strong>{isPrefill ? "Prefill" : "Decode"}</strong>
         </div>
       </div>
 
-      <div className="optical-card__controls">
+      <div className="instrument__controls">
+        <div className="instrument__signal" aria-hidden="true">
+          <span>TTFT <b>{isPrefill ? "1.8s" : "0.9s"}</b></span>
+          <span>THROUGHPUT <b>{isPrefill ? "1.2k" : "1.8k"} tok/s</b></span>
+        </div>
         <div className="segmented-control" aria-label="Inference workload visual">
           {(Object.keys(OPTICAL_PRESETS) as OpticalMode[]).map((presetMode) => (
             <button
