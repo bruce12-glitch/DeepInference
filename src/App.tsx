@@ -18,6 +18,7 @@ import { Brand } from "./components/Brand";
 import { EffectCanvas } from "./components/EffectCanvas";
 import { InteractivePageEntroSimulator } from "./components/InteractivePageEntroSimulator";
 import { OpticalHero } from "./components/OpticalHero";
+import { Aurora, CountUp, Magnetic, SpotlightLayer, useSpotlight, useTilt } from "./components/Premium";
 import { SiteHeader } from "./components/SiteHeader";
 import { simulatePageEntroKV } from "./data/deepInferenceData";
 import { MINIMAL_PRESETS } from "./data/effectPresets";
@@ -63,25 +64,29 @@ const MARQUEE_ITEMS = [
 
 const METRICS = [
   {
-    value: "2.4",
+    value: 2.4,
+    decimals: 1,
     unit: "×",
     label: "Effective throughput",
     note: "Example optimized run at 128 concurrent requests.",
   },
   {
-    value: "38",
+    value: 38,
+    decimals: 0,
     unit: "%",
     label: "KV memory reclaimed",
     note: "Active batch cycle at a 128k context window.",
   },
   {
-    value: "128",
+    value: 128,
+    decimals: 0,
     unit: "k",
     label: "Token context",
     note: "Configurable model length without re-architecture.",
   },
   {
-    value: "1",
+    value: 1,
+    decimals: 0,
     unit: "line",
     label: "API change",
     note: "Keep the OpenAI-compatible client you already ship.",
@@ -199,6 +204,38 @@ const DEPLOYMENTS = [
   },
 ];
 
+function StudyCard({
+  study,
+  index,
+}: {
+  study: (typeof STUDIES)[number];
+  index: number;
+}) {
+  const cardRef = useTilt<HTMLElement>(5);
+
+  return (
+    <article
+      ref={cardRef}
+      className="study reveal"
+      style={{ transitionDelay: `${index * 70}ms` }}
+    >
+      <EffectCanvas
+        moduleName="minimal"
+        preset={study.preset}
+        label={study.label}
+        decorative
+      />
+      <div className="study__caption">
+        <div>
+          <strong>{study.title}</strong>
+          <span>{study.subtitle}</span>
+        </div>
+        <span className="study__index">0{index + 1}</span>
+      </div>
+    </article>
+  );
+}
+
 export default function App() {
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "failed">("idle");
   const [kvBudgetPct, setKvBudgetPct] = useState(25);
@@ -207,6 +244,7 @@ export default function App() {
   const [contextK, setContextK] = useState(128);
   const [isFullViewport, setIsFullViewport] = useState(false);
   const copyTimerRef = useRef<number | null>(null);
+  const heroRef = useSpotlight<HTMLElement>();
 
   const simResult = useMemo(
     () => simulatePageEntroKV({ gqaGroupSize, kvBudgetPct, temperature, contextK }),
@@ -279,7 +317,8 @@ export default function App() {
       <SiteHeader />
 
       <main id="main-content" tabIndex={-1}>
-        <section className="hero shell" aria-labelledby="hero-title">
+        <section className="hero shell" aria-labelledby="hero-title" ref={heroRef}>
+          <SpotlightLayer />
           <div className="hero__copy">
             <p className="eyebrow">
               <span className="status-dot status-dot--live" aria-hidden="true" />
@@ -295,10 +334,12 @@ export default function App() {
               application already speaks.
             </p>
             <div className="hero__actions">
-              <a className="button button--primary" href={CONTACT_URL}>
-                Request a cluster benchmark
-                <ArrowUpRight size={17} aria-hidden="true" />
-              </a>
+              <Magnetic strength={10}>
+                <a className="button button--primary" href={CONTACT_URL}>
+                  Request a cluster benchmark
+                  <ArrowUpRight size={17} aria-hidden="true" />
+                </a>
+              </Magnetic>
               <a className="button button--ghost" href="#runtime">
                 Explore the runtime
                 <ArrowRight size={17} aria-hidden="true" />
@@ -344,7 +385,7 @@ export default function App() {
           {METRICS.map((metric) => (
             <article className="metric" key={metric.label}>
               <strong className="metric__value">
-                {metric.value}
+                <CountUp value={metric.value} decimals={metric.decimals} />
                 <small>{metric.unit}</small>
               </strong>
               <span className="metric__label">{metric.label}</span>
@@ -354,6 +395,7 @@ export default function App() {
         </div>
 
         <section id="runtime" className="section section--dark" aria-labelledby="runtime-title">
+          <Aurora />
           <div className="shell">
             <div className="section-head reveal">
               <div className="section-head__title">
@@ -545,25 +587,7 @@ export default function App() {
 
             <div className="studies">
               {STUDIES.map((study, index) => (
-                <article
-                  className="study reveal"
-                  key={study.title}
-                  style={{ transitionDelay: `${index * 70}ms` }}
-                >
-                  <EffectCanvas
-                    moduleName="minimal"
-                    preset={study.preset}
-                    label={study.label}
-                    decorative
-                  />
-                  <div className="study__caption">
-                    <div>
-                      <strong>{study.title}</strong>
-                      <span>{study.subtitle}</span>
-                    </div>
-                    <span className="study__index">0{index + 1}</span>
-                  </div>
-                </article>
+                <StudyCard key={study.title} study={study} index={index} />
               ))}
             </div>
           </div>
@@ -687,6 +711,7 @@ export default function App() {
         </section>
 
         <section id="developers" className="section section--dark" aria-labelledby="developers-title">
+          <Aurora mesh={false} />
           <div className="shell developer-layout">
             <div className="developer-copy reveal">
               <p className="eyebrow">
@@ -763,10 +788,12 @@ export default function App() {
                   Running production inference at scale? Get a private benchmark on your models
                   and hardware, with the configuration and raw results included.
                 </p>
-                <a className="button button--primary" href={CONTACT_URL}>
-                  Request a private benchmark
-                  <ArrowUpRight size={17} aria-hidden="true" />
-                </a>
+                <Magnetic strength={9}>
+                  <a className="button button--primary" href={CONTACT_URL}>
+                    Request a private benchmark
+                    <ArrowUpRight size={17} aria-hidden="true" />
+                  </a>
+                </Magnetic>
                 <span className="cta-card__note">
                   Built for teams with significant distributed inference spend.
                 </span>

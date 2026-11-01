@@ -21,8 +21,6 @@ interface ThreeKvTopologySceneProps {
   simResult: GqaSimulationResult;
   kvBudgetPct: number;
   onKvBudgetChange: (val: number) => void;
-  gqaGroupSize: number;
-  onGqaGroupChange: (val: number) => void;
   isFullViewport: boolean;
   onToggleFullViewport: () => void;
 }
@@ -167,8 +165,6 @@ export function ThreeKvTopologyScene({
   simResult,
   kvBudgetPct,
   onKvBudgetChange,
-  gqaGroupSize,
-  onGqaGroupChange,
   isFullViewport,
   onToggleFullViewport,
 }: ThreeKvTopologySceneProps) {
@@ -868,76 +864,49 @@ export function ThreeKvTopologyScene({
       </div>
 
       {/* Unified Collapsible Bottom Control Dock (<= 15% Viewport Footprint, Solid RGBA Surface, Zero Backdrop-Blur) */}
-      <div
-        className="pointer-events-auto absolute left-1/2 bottom-3 transition-transform duration-200"
-        style={{
-          width: "min(920px, 95%)",
-          transform: dockCollapsed
-            ? "translate(-50%, calc(100% - 34px))"
-            : "translate(-50%, 0)",
-        }}
-      >
-        {/* Collapse / Expand Drawer Handle */}
-        <div className="flex justify-center mb-1.5">
+      {/* Unified collapsible control dock. Glass surface, three balanced groups. */}
+      <div className={`lab-dock${dockCollapsed ? " is-collapsed" : ""}`}>
+        <div className="lab-dock__handle-row">
           <button
             type="button"
+            className="lab-dock__handle"
             onClick={() => setDockCollapsed((prev) => !prev)}
-            className="px-3.5 py-1 rounded-full text-[11px] font-medium text-[#A6A49B] hover:text-[#FAF9F5] border border-[#2E2E2B] transition-colors whitespace-nowrap cursor-pointer"
-            style={{ backgroundColor: "rgba(20, 20, 19, 0.95)" }}
+            aria-expanded={!dockCollapsed}
           >
-            {dockCollapsed
-              ? "▴ Show Controls (H)"
-              : "▾ Hide Controls · Zen Mode (H)"}
+            {dockCollapsed ? "▴ Show Controls (H)" : "▾ Hide Controls · Zen Mode (H)"}
           </button>
         </div>
 
-        {/* Main Bottom Control Bar */}
-        <div
-          className="rounded-[18px] border border-[#2E2E2B] px-4 py-3 grid grid-cols-1 lg:grid-cols-12 gap-3 items-center"
-          style={{
-            backgroundColor: "rgba(30, 30, 28, 0.96)",
-            boxShadow: "rgba(0, 0, 0, 0.45) 0px 12px 28px 0px",
-          }}
-        >
-          {/* 1. Eviction Policy Mode Switcher */}
-          <div className="lg:col-span-4 flex flex-col gap-1.5">
-            <span className="text-[11px] font-medium text-[#A6A49B] tracking-tight">
-              Eviction Policy Mode
-            </span>
-            <div className="grid grid-cols-2 p-1 rounded-full bg-[#141413] border border-[#2E2E2B] gap-1">
+        <div className="lab-dock__bar">
+          {/* 1. Eviction policy */}
+          <div className="lab-dock__group">
+            <span className="lab-dock__label">Eviction policy</span>
+            <div className="lab-dock__seg">
               <button
                 type="button"
+                data-tone="sage"
+                aria-pressed={policyView === "page-entro"}
                 onClick={() => setPolicyView("page-entro")}
-                className={`px-2.5 py-1.5 rounded-full text-[11px] font-medium transition-colors whitespace-nowrap cursor-pointer text-center ${
-                  policyView === "page-entro"
-                    ? "bg-[#788C5D] text-[#141413]"
-                    : "text-[#A6A49B] hover:text-[#FAF9F5]"
-                }`}
               >
-                Page-EntroKV (1.0×)
+                EntroKV 1.00×
               </button>
               <button
                 type="button"
+                data-tone="amber"
+                aria-pressed={policyView === "naive-union"}
                 onClick={() => setPolicyView("naive-union")}
-                className={`px-2.5 py-1.5 rounded-full text-[11px] font-medium transition-colors whitespace-nowrap cursor-pointer text-center ${
-                  policyView === "naive-union"
-                    ? "bg-[#D4883A] text-[#141413]"
-                    : "text-[#A6A49B] hover:text-[#FAF9F5]"
-                }`}
               >
-                Naive Top-K ({simResult.naiveUor}×)
+                Top-K {simResult.naiveUor.toFixed(2)}×
               </button>
             </div>
           </div>
 
-          {/* 2. Exploded Die Separation & KV Budget Sliders */}
-          <div className="lg:col-span-4 grid grid-cols-2 gap-3">
-            <div>
-              <div className="flex justify-between text-[11px] text-[#A6A49B] mb-1">
-                <span>Exploded Stack</span>
-                <span className="font-mono-tabular text-[#FAF9F5]">
-                  {explodedPct}%
-                </span>
+          {/* 2. Physical budgets */}
+          <div className="lab-dock__sliders">
+            <div className="lab-dock__slider">
+              <div className="lab-dock__label">
+                <span>Exploded</span>
+                <span className="lab-dock__value">{explodedPct}%</span>
               </div>
               <input
                 type="range"
@@ -950,12 +919,10 @@ export function ThreeKvTopologyScene({
               />
             </div>
 
-            <div>
-              <div className="flex justify-between text-[11px] text-[#A6A49B] mb-1">
-                <span>KV Page Budget</span>
-                <span className="font-mono-tabular text-[#FAF9F5]">
-                  {kvBudgetPct}%
-                </span>
+            <div className="lab-dock__slider">
+              <div className="lab-dock__label">
+                <span>KV budget</span>
+                <span className="lab-dock__value">{kvBudgetPct}%</span>
               </div>
               <input
                 type="range"
@@ -970,13 +937,11 @@ export function ThreeKvTopologyScene({
             </div>
           </div>
 
-          {/* 3. Camera View Presets & Surface Finish */}
-          <div className="lg:col-span-4 flex flex-col gap-1.5">
-            <div className="flex items-center justify-between">
-              <span className="type-utility text-[#A6A49B]">
-                Camera & Die Finish
-              </span>
-              <div className="inline-flex items-center gap-1.5">
+          {/* 3. Camera presets & die finish */}
+          <div className="lab-dock__group">
+            <div className="lab-dock__label">
+              <span>Die finish</span>
+              <span className="lab-dock__swatches">
                 {(
                   [
                     ["terracotta-anodized", "#D97757", "Terracotta"],
@@ -987,21 +952,18 @@ export function ThreeKvTopologyScene({
                   <button
                     key={finishId}
                     type="button"
+                    className="lab-dock__swatch"
+                    aria-pressed={finishPreset === finishId}
                     onClick={() => setFinishPreset(finishId)}
                     title={`Finish: ${label}`}
-                    className={`w-4 h-4 rounded-full border cursor-pointer ${
-                      finishPreset === finishId
-                        ? "border-[#FAF9F5] ring-1 ring-[#FAF9F5]"
-                        : "border-[#2E2E2B] opacity-70 hover:opacity-100"
-                    }`}
+                    aria-label={`${label} finish`}
                     style={{ backgroundColor: swatchHex }}
-                    aria-label={label}
                   />
                 ))}
-              </div>
+              </span>
             </div>
 
-            <div className="grid grid-cols-4 gap-1">
+            <div className="lab-dock__cams">
               {(
                 [
                   ["isometric", "Iso Die"],
@@ -1013,12 +975,9 @@ export function ThreeKvTopologyScene({
                 <button
                   key={presetKey}
                   type="button"
+                  className="lab-dock__cam"
+                  aria-pressed={cameraPreset === presetKey}
                   onClick={() => handleSelectCameraPreset(presetKey)}
-                  className={`px-2 py-1 rounded-[8px] type-utility border transition-colors whitespace-nowrap cursor-pointer ${
-                    cameraPreset === presetKey
-                      ? "bg-[#E3DACC] text-[#141413] border-[#FAF9F5]"
-                      : "bg-[#141413] text-[#A6A49B] border-[#2E2E2B] hover:text-[#FAF9F5]"
-                  }`}
                 >
                   {label}
                 </button>

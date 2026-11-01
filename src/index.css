@@ -1691,6 +1691,8 @@ section[id] {
 }
 
 .demo-badge {
+  flex: 0 1 auto;
+  min-width: 0;
   padding: 6px 9px;
   border: 1px solid rgba(217, 119, 87, 0.35);
   border-radius: 6px;
@@ -2729,11 +2731,6 @@ section[id] {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .study:nth-child(4),
-  .study:nth-child(5) {
-    display: none;
-  }
-
   .benchmark-panel__charts {
     grid-template-columns: 1fr;
   }
@@ -3000,10 +2997,6 @@ section[id] {
     gap: 10px;
   }
 
-  .study:nth-child(3) {
-    display: none;
-  }
-
   .benchmark-panel {
     border-radius: 18px;
   }
@@ -3014,7 +3007,9 @@ section[id] {
   }
 
   .demo-badge {
-    max-width: 92px;
+    flex: 0 1 auto;
+    max-width: 112px;
+    white-space: normal;
     text-align: center;
   }
 
