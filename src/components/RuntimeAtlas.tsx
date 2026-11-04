@@ -1,21 +1,21 @@
 import { useId, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 
-const stages = [
+const priorities = [
   {
-    name: "Prefill",
+    name: "Latency",
     detail:
-      "Process the prompt and build the attention state. Long inputs can dominate time to first token.",
+      "Reduce the wait before the first token, especially on long prompts.",
   },
   {
-    name: "KV cache",
+    name: "Memory",
     detail:
-      "Keep keys and values from previous tokens in memory so later steps can reuse them.",
+      "Free up GPU memory for longer conversations and more concurrent requests.",
   },
   {
-    name: "Decode",
+    name: "Throughput",
     detail:
-      "Generate one token at a time. Scheduling and memory bandwidth shape sustained throughput.",
+      "Serve more tokens per GPU while keeping response times within target.",
   },
 ] as const;
 
@@ -27,9 +27,9 @@ export function RuntimeAtlas() {
   return (
     <figure className="runtime-atlas">
       <div className="atlas-heading">
-        <span className="mono">FIG. 01 / THE INFERENCE PATH</span>
+        <span className="mono">OPTIMIZATION PRIORITIES</span>
         <span className="atlas-signal mono">
-          <i /> ARCHITECTURE STUDY
+          <i aria-hidden="true" /> PRODUCTION INFERENCE
         </span>
       </div>
       <svg
@@ -39,8 +39,8 @@ export function RuntimeAtlas() {
         aria-labelledby={titleId}
       >
         <title id={titleId}>
-          Three stacked plates representing prefill, KV cache, and decode.{" "}
-          {stages[active].name} is highlighted.
+          Three stacked layers representing latency, GPU memory, and throughput.{" "}
+          {priorities[active].name} is highlighted.
         </title>
         <defs>
           <pattern
@@ -128,22 +128,21 @@ export function RuntimeAtlas() {
         <div
           className="atlas-controls"
           role="group"
-          aria-label="Highlight an inference stage"
+          aria-label="Explore optimization priorities"
         >
-          {stages.map((stage, index) => (
+          {priorities.map((priority, index) => (
             <button
-              key={stage.name}
+              key={priority.name}
               type="button"
               aria-pressed={active === index}
               onClick={() => setActive(index)}
             >
-              <span className="mono">0{index + 1}</span>
-              {stage.name}
+              {priority.name}
               <ArrowUpRight size={13} aria-hidden="true" />
             </button>
           ))}
         </div>
-        <p aria-live="polite">{stages[active].detail}</p>
+        <p aria-live="polite">{priorities[active].detail}</p>
       </figcaption>
     </figure>
   );

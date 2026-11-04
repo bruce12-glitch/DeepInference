@@ -18,51 +18,54 @@ import { ContactDialog } from "./components/ContactDialog";
 
 const SOLUTIONS = [
   {
-    title: "Model builders",
-    tag: "PREFILL / CONTEXT DISTRIBUTION",
+    title: "Faster responses",
+    tag: "Latency optimization",
     description:
-      "Bring ambitious models closer to production. Find the memory and execution constraints that stand between capability and scale.",
-    topic: "Model deployment",
+      "Find where requests wait, then tune prompt processing and scheduling to improve response times at your target load.",
+    topic: "Latency optimization",
+    action: "Discuss response times",
     icon: Cpu,
     art: "model",
   },
   {
-    title: "AI platforms",
-    tag: "SCHEDULING / BATCH TIMELINE",
+    title: "More serving capacity",
+    tag: "Throughput optimization",
     description:
-      "Build a better serving layer for the applications depending on you. Balance response time, concurrency, and infrastructure cost.",
-    topic: "Serving infrastructure",
+      "Tune batching and execution to serve more requests on your existing GPUs while meeting your latency targets.",
+    topic: "Throughput optimization",
+    action: "Discuss serving capacity",
     icon: Workflow,
     art: "platform",
   },
   {
-    title: "Enterprise AI",
-    tag: "DEPLOYMENT / SERVICE BOUNDARY",
+    title: "Room for longer context",
+    tag: "GPU memory optimization",
     description:
-      "Make demanding AI workloads practical on your infrastructure, with an optimization plan shaped around your deployment constraints.",
-    topic: "Enterprise inference",
+      "Reduce cache pressure so your deployment can handle longer prompts or more concurrent sessions. Measure the effect on output quality as you go.",
+    topic: "GPU memory optimization",
+    action: "Discuss memory constraints",
     icon: Layers3,
     art: "enterprise",
   },
 ] as const;
 const STEPS = [
   {
-    title: "Understand the workload.",
+    title: "Scope your deployment",
     description:
-      "Start with your models, context lengths, traffic patterns, and latency targets. Identify where the system spends its time and memory.",
-    deliverable: "Workload profile & baseline",
+      "Share your models, hardware, traffic patterns, and performance goals. We agree on what to measure and profile your current deployment.",
+    deliverable: "Performance baseline",
   },
   {
-    title: "Find the right intervention.",
+    title: "Run a focused pilot",
     description:
-      "Evaluate cache management, prefill, scheduling, and execution changes against the bottleneck. Keep output quality in the comparison.",
-    deliverable: "Optimization plan & matched evaluation",
+      "Test changes aimed at your bottleneck on the same hardware with the same workload. Compare serving performance and output quality against the baseline.",
+    deliverable: "Measured results and tradeoffs",
   },
   {
-    title: "Prove it on your stack.",
+    title: "Plan the rollout",
     description:
-      "Compare the same workload on the same hardware. Review the tradeoffs with your team and agree on an integration path.",
-    deliverable: "Results, tradeoffs & rollout plan",
+      "Review the results with your engineering team and decide which changes to adopt. Map out integration and what to monitor in production.",
+    deliverable: "Integration and monitoring plan",
   },
 ];
 const FAQS = [
@@ -108,7 +111,7 @@ export default function App() {
         >
           <div className="hero__copy">
             <p className="eyebrow system-kicker">
-              <span aria-hidden="true" /> Inference systems engineering
+              <span aria-hidden="true" /> Inference optimization for AI teams
             </p>
             <h1 id="hero-title">
               Make every
@@ -116,64 +119,26 @@ export default function App() {
               <em>GPU count.</em>
             </h1>
             <p className="hero__description">
-              DeepInference helps AI teams improve how their models run in
-              production. We study where requests wait, what fills GPU memory,
-              and how much traffic the serving stack can sustain.
+              DeepInference helps AI companies serve models faster, fit more
+              context in memory, and get more capacity from the GPUs they
+              already run.
             </p>
             <div className="hero__actions">
               <button
                 className="button button--primary"
                 onClick={() => openContact()}
               >
-                Discuss your workload{" "}
+                Talk to the team{" "}
                 <ArrowUpRight size={16} aria-hidden="true" />
               </button>
-              <a className="text-link" href="#platform">
-                Explore the cache lab <ArrowDown size={16} aria-hidden="true" />
+              <a className="text-link" href="#solutions">
+                Explore solutions <ArrowDown size={16} aria-hidden="true" />
               </a>
             </div>
           </div>
           <RuntimeAtlas />
         </section>
 
-        <div
-          className="runtime-index shell"
-          aria-label="Key inference measurements"
-        >
-          <div>
-            <span className="mono">01 / LATENCY</span>
-            <strong>Time to first token</strong>
-            <span className="mono runtime-index__unit">MS</span>
-          </div>
-          <div>
-            <span className="mono">02 / MEMORY</span>
-            <strong>KV cache footprint</strong>
-            <span className="mono runtime-index__unit">GiB</span>
-          </div>
-          <div>
-            <span className="mono">03 / THROUGHPUT</span>
-            <strong>Output tokens per second</strong>
-            <span className="mono runtime-index__unit">TOK/S</span>
-          </div>
-        </div>
-
-        <section
-          className="section shell system-lab"
-          id="platform"
-          aria-labelledby="platform-title"
-        >
-          <div className="section-heading">
-            <p className="eyebrow">01 / Inference lab</p>
-            <div className="section-heading__row">
-              <h2 id="platform-title">See what context costs.</h2>
-              <p>
-                Change the model geometry, context length, and concurrency to
-                estimate how much memory the KV cache needs.
-              </p>
-            </div>
-          </div>
-          <CacheLab />
-        </section>
         <section
           className="section solutions-section"
           id="solutions"
@@ -181,27 +146,27 @@ export default function App() {
         >
           <div className="shell">
             <div className="section-heading">
-              <p className="eyebrow">02 / Who we work with</p>
+              <p className="eyebrow">Solutions</p>
               <div className="section-heading__row">
                 <h2 id="solutions-title">
-                  Built around the stack
-                  <br />
-                  <em>you already run.</em>
+                  Better performance on
+                  <br /> <em>your serving stack.</em>
                 </h2>
                 <p>
-                  The bottleneck depends on who serves the model and how it’s
-                  used. We start with the constraint that matters to your team.
+                  For model builders, AI platforms, and enterprise teams running
+                  inference in production. Start with the constraint that limits
+                  your deployment today.
                 </p>
               </div>
             </div>
             <div className="solutions-grid">
-              {SOLUTIONS.map((solution, index) => (
+              {SOLUTIONS.map((solution) => (
                 <article
                   className={`solution solution--${solution.art}`}
                   key={solution.title}
                 >
                   <div className="solution__top">
-                    <span className="mono">0{index + 1}</span>
+                    <span className="eyebrow">{solution.tag}</span>
                     <solution.icon
                       size={21}
                       strokeWidth={1.4}
@@ -214,7 +179,6 @@ export default function App() {
                   >
                     <ServingStudy kind={solution.art} />
                   </div>
-                  <p className="eyebrow">{solution.tag}</p>
                   <h3>{solution.title}</h3>
                   <p className="solution__description">
                     {solution.description}
@@ -223,7 +187,7 @@ export default function App() {
                     className="text-link"
                     onClick={() => openContact(solution.topic)}
                   >
-                    Let’s work together{" "}
+                    {solution.action}{" "}
                     <ArrowUpRight size={16} aria-hidden="true" />
                   </button>
                 </article>
@@ -237,16 +201,15 @@ export default function App() {
           aria-labelledby="approach-title"
         >
           <div className="section-heading">
-            <p className="eyebrow">03 / Evaluation process</p>
+            <p className="eyebrow">How we work</p>
             <div className="section-heading__row">
               <h2 id="approach-title">
-                Your workload.
-                <br />
-                <em>Our starting point.</em>
+                From bottleneck
+                <br /> <em>to rollout.</em>
               </h2>
               <p>
-                An optimization only matters if it helps the system you actually
-                run. We start with the constraint, then measure the change.
+                Work with DeepInference to define a success metric, test the
+                changes on your stack, and decide what belongs in production.
               </p>
             </div>
           </div>
@@ -262,13 +225,6 @@ export default function App() {
                 </div>
               </article>
             ))}
-          </div>
-          <div className="measurement-strip">
-            <span className="mono">WHAT WE LOOK AT</span>
-            <span>Time to first token</span>
-            <span>Tokens per second</span>
-            <span>Memory footprint</span>
-            <span>Output quality</span>
           </div>
         </section>
         <section
@@ -293,29 +249,25 @@ export default function App() {
                 </g>
                 <circle cx="160" cy="160" r="7" fill="currentColor" />
               </svg>
-              <span className="mono">RESOURCEFUL BY DESIGN</span>
             </div>
             <div className="company-copy">
-              <p className="eyebrow">04 / Company</p>
+              <p className="eyebrow">Company</p>
               <h2 id="company-title">
-                The next leap in AI
-                <br />
-                shouldn’t require
-                <br />
-                <em>the next GPU cluster.</em>
+                Meet DeepInference.
               </h2>
               <p>
-                We’re building DeepInference around a simple conviction: there
-                is more possibility in the infrastructure we already have.
+                We’re an inference optimization company for AI teams. We work
+                with the people who build and operate model serving systems to
+                make production inference faster and more efficient.
               </p>
               <p>
-                We work on the systems behind inference: how context uses
-                memory, how requests share compute, and where time is lost
-                between the two.
+                We start with the models, hardware, and infrastructure you
+                already use. Your team gets a clear view of what limits
+                performance and which changes are worth deploying.
               </p>
               <button
-                className="text-link"
-                onClick={() => openContact("Meet DeepInference")}
+                className="button button--primary company-copy__cta"
+                onClick={() => openContact("An inference pilot")}
               >
                 Talk to the team <ArrowUpRight size={16} aria-hidden="true" />
               </button>
@@ -327,10 +279,10 @@ export default function App() {
           aria-labelledby="faq-title"
         >
           <div>
-            <p className="eyebrow">05 / Questions</p>
+            <p className="eyebrow">Questions</p>
             <h2 id="faq-title">
-              Let’s get
-              <br /> <em>into the details.</em>
+              Before we
+              <br /> <em>work together.</em>
             </h2>
           </div>
           <div className="faq-list">
@@ -346,6 +298,25 @@ export default function App() {
           </div>
         </section>
         <section
+          className="shell resource-section"
+          id="platform"
+          aria-labelledby="platform-title"
+        >
+          <details className="resource-disclosure">
+            <summary>
+              <span className="resource-disclosure__copy">
+                <span className="eyebrow">Engineering resource</span>
+                <span id="platform-title">KV cache calculator</span>
+                <span>Estimate GPU memory for your model and workload.</span>
+              </span>
+              <ChevronDown size={22} aria-hidden="true" />
+            </summary>
+            <div className="resource-disclosure__body">
+              <CacheLab />
+            </div>
+          </details>
+        </section>
+        <section
           className="contact-section shell"
           id="contact"
           aria-labelledby="contact-title"
@@ -357,16 +328,14 @@ export default function App() {
               ))}
             </div>
             <div className="contact-panel__copy">
-              <p className="eyebrow">06 / Talk to us</p>
+              <p className="eyebrow">Get in touch</p>
               <h2 id="contact-title">
-                What could your
-                <br />
-                <em>infrastructure do better?</em>
+                Let’s talk about
+                <br /> <em>your deployment.</em>
               </h2>
               <p>
-                Bring us your hardest inference problem.
-                <br />
-                Let’s see where better engineering can take it.
+                Tell us what you’re serving, what it runs on, and where you
+                want to improve. We’ll start there.
               </p>
               <button
                 className="button button--primary"
@@ -376,9 +345,6 @@ export default function App() {
                 <ArrowUpRight size={17} aria-hidden="true" />
               </button>
             </div>
-            <span className="contact-panel__note mono">
-              MODELS. MEMORY. MORE POSSIBILITY.
-            </span>
           </div>
         </section>
       </main>
@@ -389,17 +355,16 @@ export default function App() {
               <Brand />
             </a>
             <p>
-              More intelligence.
-              <br />
-              Less overhead.
+              Inference optimization for AI teams.
             </p>
           </div>
           <div className="footer__links">
             <div>
               <span className="eyebrow">Explore</span>
-              <a href="#platform">KV cache lab</a>
-              <a href="#solutions">Who we work with</a>
-              <a href="#approach">Our approach</a>
+              <a href="#solutions">Solutions</a>
+              <a href="#approach">How we work</a>
+              <a href="#company">Company</a>
+              <a href="#platform">KV cache calculator</a>
             </div>
             <div>
               <span className="eyebrow">Get in touch</span>
@@ -425,7 +390,6 @@ export default function App() {
             Back to top{" "}
             <ArrowRight size={13} className="arrow-up" aria-hidden="true" />
           </a>
-          <span>Every bit of compute matters.</span>
         </div>
       </footer>
       <ContactDialog dialogRef={dialogRef} topic={contactTopic} />

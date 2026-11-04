@@ -1,6 +1,6 @@
 {
-  "name": "DeepInference — Page-EntroKV Telemetry & 3D GQA Architecture",
-  "description": "Hardware-aligned, entropy-weighted KV-cache eviction platform for Grouped-Query Attention (GQA) with 3D WebGL page-table topology, interactive Rényi-2 telemetry, and Gemini AI research tools.",
+  "name": "DeepInference — Inference optimization for AI teams",
+  "description": "DeepInference helps AI companies improve response times, GPU memory efficiency, and serving capacity on their production inference stacks.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

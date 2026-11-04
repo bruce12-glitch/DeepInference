@@ -4,7 +4,7 @@
 
 **Website:** [Open the DeepInference website](https://deepinference-inference.coolgoose68.chatgpt.site) *(private preview; ChatGPT sign-in required)*.
 
-DeepInference is building inference optimization for AI companies, model builders, and infrastructure teams. This repository contains the company website: its optimization focus, target workloads, evaluation approach, and contact experience.
+DeepInference is building inference optimization for AI companies, model builders, and infrastructure teams. The company website presents its optimization services, pilot process, and contact experience. The KV cache calculator is available as a secondary engineering resource.
 
 ## Run locally
 
@@ -26,7 +26,7 @@ npm run preview
 ## Website structure
 
 - `src/App.tsx`: company positioning, audiences, evaluation process, FAQs, and contact entry points.
-- `src/components/RuntimeAtlas.tsx`: selectable SVG diagram of prefill, KV cache, and decode.
+- `src/components/RuntimeAtlas.tsx`: interactive SVG introducing latency, GPU memory, and throughput optimization.
 - `src/components/CacheLab.tsx`: analytical KV memory estimator with a matched multi-head reference.
 - `src/components/ContactDialog.tsx`: validated introduction form with an editable email draft and clipboard fallback.
 - `src/components/SiteHeader.tsx`: desktop navigation and a mobile menu with Escape dismissal.
@@ -40,7 +40,7 @@ The form prepares a draft addressed to `iambruce0012@gmail.com`, the contact add
 
 ## Content boundaries
 
-The site describes DeepInference's focus and proposed engagement process. It does not advertise unverified customer relationships, fixed savings, published package availability, supported hardware matrices, or guaranteed integrations. The optimization explorer is a conceptual illustration rather than benchmark telemetry.
+The site describes DeepInference's focus and proposed engagement process. It does not advertise unverified customer relationships, fixed savings, published package availability, supported hardware matrices, or guaranteed integrations. The KV cache calculator uses a theoretical memory estimate.
 
 Earlier research simulators, telemetry components, effect bundles, and the optional Gemini routes are retained as source. They are not mounted by the company landing page. The marketing website does not need a Gemini API key. This redesign does not validate the legacy API endpoints or their model identifiers.
 

@@ -159,11 +159,6 @@
 .atlas-controls button:focus-visible {
   outline-offset: -4px;
 }
-.atlas-controls .mono {
-  color: #82412d;
-  font-size: 9px;
-}
-
 .atlas-caption p {
   min-height: 68px;
   padding: 13px 16px;
@@ -172,38 +167,60 @@
   line-height: 1.5;
 }
 
-.runtime-index {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-block: 1px solid var(--line);
+.resource-section {
+  margin-bottom: clamp(36px, 6vw, 72px);
 }
 
-.runtime-index > div {
-  position: relative;
-  display: grid;
-  gap: 6px;
-  padding: 16px 56px 16px 16px;
+.resource-disclosure {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper-warm);
 }
 
-.runtime-index > div + div {
-  border-left: 1px solid var(--line);
+.resource-disclosure > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: clamp(18px, 3.2vw, 38px);
+  border-radius: inherit;
+  list-style: none;
+  cursor: pointer;
 }
-.runtime-index .mono {
+.resource-disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+.resource-disclosure > summary:hover {
+  background: #ebe8de;
+}
+.resource-disclosure > summary svg {
+  flex-shrink: 0;
+  transition: transform 180ms var(--ease);
+}
+.resource-disclosure[open] > summary svg {
+  transform: rotate(180deg);
+}
+.resource-disclosure__copy {
+  display: grid;
+  gap: 5px;
   color: var(--muted);
+  font-size: 13px;
 }
-.runtime-index strong {
-  font-size: 14px;
-  font-weight: 500;
-}
-.runtime-index .runtime-index__unit {
-  position: absolute;
-  top: 19px;
-  right: 14px;
+.resource-disclosure__copy .eyebrow {
   color: var(--accent);
 }
+.resource-disclosure__copy #platform-title {
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: clamp(23px, 3vw, 34px);
+  line-height: 1.2;
+}
+.resource-disclosure__body {
+  padding: 0 clamp(10px, 2vw, 24px) clamp(10px, 2vw, 24px);
+}
 
-.system-lab {
-  padding-top: clamp(58px, 8vw, 110px);
+.company-copy__cta {
+  margin-top: 24px;
 }
 
 .cache-lab {
@@ -464,19 +481,8 @@
   .atlas-caption p {
     min-height: 72px;
   }
-  .runtime-index > div {
-    padding: 12px 8px;
-    gap: 5px;
-  }
-  .runtime-index .mono {
-    font-size: 8px;
-  }
-  .runtime-index strong {
-    font-size: 12px;
-    line-height: 1.35;
-  }
-  .runtime-index .runtime-index__unit {
-    position: static;
+  .company-copy {
+    order: -1;
   }
   .lab-body {
     grid-template-columns: minmax(0, 1fr);

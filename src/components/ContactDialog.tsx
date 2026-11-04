@@ -57,14 +57,14 @@ export function ContactDialog({
         >
           <X size={20} aria-hidden="true" />
         </button>
-        <p className="eyebrow">Let’s build something more efficient</p>
+        <p className="eyebrow">Talk to DeepInference</p>
         <h2 id="dialog-title">
-          Tell us what
+          Tell us about
           <br />
-          <em>you’re working on.</em>
+          <em>your deployment.</em>
         </h2>
         <p id="dialog-description">
-          A little context helps us start with the right questions.
+          Share your workload and the performance goal you’re working toward.
         </p>
         {!prepared ? (
           <form

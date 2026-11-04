@@ -1862,9 +1862,6 @@ body:has(.contact-dialog[open]) {
     gap: 12px 30px;
     font-size: 9px;
   }
-  .footer__bottom > span:last-child {
-    display: none;
-  }
   .dialog__inner {
     padding: 34px 24px;
   }
