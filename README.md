@@ -26,11 +26,11 @@ npm run preview
 ## Website structure
 
 - `src/App.tsx`: company positioning, audiences, evaluation process, FAQs, and contact entry points.
-- `src/components/InferenceField.tsx`: original SVG line sculpture with pause/play, visibility handling, and reduced motion support.
-- `src/components/OptimizationExplorer.tsx`: keyboard-operable tabs for latency, cache memory, and serving capacity.
+- `src/components/RuntimeAtlas.tsx`: selectable SVG diagram of prefill, KV cache, and decode.
+- `src/components/CacheLab.tsx`: analytical KV memory estimator with a matched multi-head reference.
 - `src/components/ContactDialog.tsx`: validated introduction form with an editable email draft and clipboard fallback.
 - `src/components/SiteHeader.tsx`: desktop navigation and a mobile menu with Escape dismissal.
-- `src/index.css`: responsive cream, charcoal, terracotta, blue, and sage design tokens and component styles.
+- `src/index.css` and `src/styles/system-study.css`: editorial palette, responsive layout, and technical figure styles.
 - `public/brand/wordmark.svg` and `monogram.svg`: original replacement brand assets.
 - `public/brand/og-startup.svg`: editable source for the 1200 × 630 social image.
 

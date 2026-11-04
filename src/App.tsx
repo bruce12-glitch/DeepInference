@@ -11,14 +11,15 @@ import {
 } from "lucide-react";
 import { Brand } from "./components/Brand";
 import { SiteHeader } from "./components/SiteHeader";
-import { InferenceField } from "./components/InferenceField";
-import { OptimizationExplorer } from "./components/OptimizationExplorer";
+import { RuntimeAtlas } from "./components/RuntimeAtlas";
+import { CacheLab } from "./components/CacheLab";
+import { ServingStudy } from "./components/ServingStudy";
 import { ContactDialog } from "./components/ContactDialog";
 
 const SOLUTIONS = [
   {
     title: "Model builders",
-    tag: "FROM WEIGHTS TO WORKLOADS",
+    tag: "PREFILL / CONTEXT DISTRIBUTION",
     description:
       "Bring ambitious models closer to production. Find the memory and execution constraints that stand between capability and scale.",
     topic: "Model deployment",
@@ -27,7 +28,7 @@ const SOLUTIONS = [
   },
   {
     title: "AI platforms",
-    tag: "EVERY REQUEST ADDS UP",
+    tag: "SCHEDULING / BATCH TIMELINE",
     description:
       "Build a better serving layer for the applications depending on you. Balance response time, concurrency, and infrastructure cost.",
     topic: "Serving infrastructure",
@@ -36,14 +37,14 @@ const SOLUTIONS = [
   },
   {
     title: "Enterprise AI",
-    tag: "YOUR STACK. YOUR PRIORITIES.",
+    tag: "DEPLOYMENT / SERVICE BOUNDARY",
     description:
       "Make demanding AI workloads practical on your infrastructure, with an optimization plan shaped around your deployment constraints.",
     topic: "Enterprise inference",
     icon: Layers3,
     art: "enterprise",
   },
-];
+] as const;
 const STEPS = [
   {
     title: "Understand the workload.",
@@ -101,97 +102,77 @@ export default function App() {
       </a>
       <SiteHeader onContact={() => openContact()} />
       <main id="main-content" tabIndex={-1}>
-        <section className="hero shell" aria-labelledby="hero-title">
+        <section
+          className="hero system-hero shell"
+          aria-labelledby="hero-title"
+        >
           <div className="hero__copy">
-            <p className="eyebrow">
-              <span className="small-cross" aria-hidden="true">
-                ✳
-              </span>{" "}
-              The inference optimization company
+            <p className="eyebrow system-kicker">
+              <span aria-hidden="true" /> Inference systems engineering
             </p>
             <h1 id="hero-title">
               Make every
               <br />
               <em>GPU count.</em>
             </h1>
-            <p className="hero__lede">
-              Intelligence is moving fast.
-              <br className="desktop-break" /> The infrastructure should keep
-              up.
-            </p>
             <p className="hero__description">
-              We help AI teams rethink the cost of inference. Less wasted
-              compute. Better use of memory. More room for what comes next.
+              DeepInference helps AI teams improve how their models run in
+              production. We study where requests wait, what fills GPU memory,
+              and how much traffic the serving stack can sustain.
             </p>
             <div className="hero__actions">
               <button
                 className="button button--primary"
                 onClick={() => openContact()}
               >
-                Let’s talk inference{" "}
-                <ArrowUpRight size={17} aria-hidden="true" />
+                Discuss your workload{" "}
+                <ArrowUpRight size={16} aria-hidden="true" />
               </button>
               <a className="text-link" href="#platform">
-                Explore our approach <ArrowDown size={16} aria-hidden="true" />
+                Explore the cache lab <ArrowDown size={16} aria-hidden="true" />
               </a>
             </div>
           </div>
-          <InferenceField />
-          <div className="hero__footnote">
-            <span>LESS OVERHEAD. MORE POSSIBILITY.</span>
-            <span>
-              Built for the teams building AI{" "}
-              <ArrowDown size={13} aria-hidden="true" />
-            </span>
-          </div>
+          <RuntimeAtlas />
         </section>
-        <div className="principles-band">
-          <div className="shell principles-band__inner">
-            <p>
-              A better balance,
-              <br />
-              <strong>at every layer.</strong>
-            </p>
-            <span>
-              <span className="principle-mark" aria-hidden="true">
-                ↗
-              </span>{" "}
-              Lower latency
-            </span>
-            <span>
-              <span className="principle-mark" aria-hidden="true">
-                ▧
-              </span>{" "}
-              Smarter memory
-            </span>
-            <span>
-              <span className="principle-mark" aria-hidden="true">
-                ⤴
-              </span>{" "}
-              Greater capacity
-            </span>
+
+        <div
+          className="runtime-index shell"
+          aria-label="Key inference measurements"
+        >
+          <div>
+            <span className="mono">01 / LATENCY</span>
+            <strong>Time to first token</strong>
+            <span className="mono runtime-index__unit">MS</span>
+          </div>
+          <div>
+            <span className="mono">02 / MEMORY</span>
+            <strong>KV cache footprint</strong>
+            <span className="mono runtime-index__unit">GiB</span>
+          </div>
+          <div>
+            <span className="mono">03 / THROUGHPUT</span>
+            <strong>Output tokens per second</strong>
+            <span className="mono runtime-index__unit">TOK/S</span>
           </div>
         </div>
+
         <section
-          className="section shell"
+          className="section shell system-lab"
           id="platform"
           aria-labelledby="platform-title"
         >
           <div className="section-heading">
-            <p className="eyebrow">01 / The opportunity</p>
+            <p className="eyebrow">01 / Inference lab</p>
             <div className="section-heading__row">
-              <h2 id="platform-title">
-                Good models deserve
-                <br />
-                <em>better infrastructure.</em>
-              </h2>
+              <h2 id="platform-title">See what context costs.</h2>
               <p>
-                Inference is a system of tradeoffs. We work where model behavior
-                meets the realities of memory, compute, and production traffic.
+                Change the model geometry, context length, and concurrency to
+                estimate how much memory the KV cache needs.
               </p>
             </div>
           </div>
-          <OptimizationExplorer />
+          <CacheLab />
         </section>
         <section
           className="section solutions-section"
@@ -200,16 +181,16 @@ export default function App() {
         >
           <div className="shell">
             <div className="section-heading">
-              <p className="eyebrow">02 / Built for your ambition</p>
+              <p className="eyebrow">02 / Who we work with</p>
               <div className="section-heading__row">
                 <h2 id="solutions-title">
-                  Different teams.
+                  Built around the stack
                   <br />
-                  <em>The same need to do more.</em>
+                  <em>you already run.</em>
                 </h2>
                 <p>
-                  From a model’s first deployment to a platform’s next million
-                  requests, efficiency changes what becomes possible.
+                  The bottleneck depends on who serves the model and how it’s
+                  used. We start with the constraint that matters to your team.
                 </p>
               </div>
             </div>
@@ -231,9 +212,7 @@ export default function App() {
                     className={`solution-art solution-art--${solution.art}`}
                     aria-hidden="true"
                   >
-                    {Array.from({ length: 9 }, (_, i) => (
-                      <span key={i} style={{ "--i": i } as CSSProperties} />
-                    ))}
+                    <ServingStudy kind={solution.art} />
                   </div>
                   <p className="eyebrow">{solution.tag}</p>
                   <h3>{solution.title}</h3>
@@ -258,7 +237,7 @@ export default function App() {
           aria-labelledby="approach-title"
         >
           <div className="section-heading">
-            <p className="eyebrow">03 / Engineering, with evidence</p>
+            <p className="eyebrow">03 / Evaluation process</p>
             <div className="section-heading__row">
               <h2 id="approach-title">
                 Your workload.
@@ -317,7 +296,7 @@ export default function App() {
               <span className="mono">RESOURCEFUL BY DESIGN</span>
             </div>
             <div className="company-copy">
-              <p className="eyebrow">A belief behind the engineering</p>
+              <p className="eyebrow">04 / Company</p>
               <h2 id="company-title">
                 The next leap in AI
                 <br />
@@ -338,8 +317,7 @@ export default function App() {
                 className="text-link"
                 onClick={() => openContact("Meet DeepInference")}
               >
-                Meet your next engineering partner{" "}
-                <ArrowUpRight size={16} aria-hidden="true" />
+                Talk to the team <ArrowUpRight size={16} aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -349,7 +327,7 @@ export default function App() {
           aria-labelledby="faq-title"
         >
           <div>
-            <p className="eyebrow">A few things, answered</p>
+            <p className="eyebrow">05 / Questions</p>
             <h2 id="faq-title">
               Let’s get
               <br /> <em>into the details.</em>
@@ -379,7 +357,7 @@ export default function App() {
               ))}
             </div>
             <div className="contact-panel__copy">
-              <p className="eyebrow">The next step is a conversation</p>
+              <p className="eyebrow">06 / Talk to us</p>
               <h2 id="contact-title">
                 What could your
                 <br />
@@ -419,7 +397,7 @@ export default function App() {
           <div className="footer__links">
             <div>
               <span className="eyebrow">Explore</span>
-              <a href="#platform">Our focus</a>
+              <a href="#platform">KV cache lab</a>
               <a href="#solutions">Who we work with</a>
               <a href="#approach">Our approach</a>
             </div>

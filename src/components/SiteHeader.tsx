@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { Brand } from "./Brand";
 const NAV_ITEMS = [
-  { label: "Our focus", href: "#platform" },
+  { label: "KV cache lab", href: "#platform" },
   { label: "Solutions", href: "#solutions" },
-  { label: "Our approach", href: "#approach" },
+  { label: "Evaluation", href: "#approach" },
   { label: "Company", href: "#company" },
 ];
 export function SiteHeader({ onContact }: { onContact: () => void }) {
